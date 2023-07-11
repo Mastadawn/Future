@@ -38,7 +38,7 @@ local GuiLibrary = {
     WindowX = 40,
     Connections = {},
     ClickSounds = true,
-    GuiKeybind = "RightShift",
+    GuiKeybind = "M",
     CurrentConfig = "default",
     AllowNotifications = true,
     HUDEnabled = true,
@@ -131,7 +131,7 @@ local function requesturl(url, bypass)
     if betterisfile(url) then 
         return readfile(url)
     end
-    local repourl = bypass and "https://raw.githubusercontent.com/Mastadawn/" or "https://raw.githubusercontent.com/Mastadawn/Future/main/"
+    local repourl = bypass and "https://raw.githubusercontent.com/sstvskids/" or "https://raw.githubusercontent.com/sstvskids/Future/main/"
 
     local req = requestfunc({
         Url = repourl..url,
@@ -142,46 +142,18 @@ local function requesturl(url, bypass)
 end 
 
 local function getasset(path)
-	--[[if not betterisfile(path) then
+	if not betterisfile(path) then
 		local req = requestfunc({
-			Url = "https://raw.githubusercontent.com/Mastadawn/Future/main/"..path:gsub("Future/assets", "assets"),
+			Url = "https://raw.githubusercontent.com/sstvskids/Future/main/"..path:gsub("Future/assets", "assets"),
 			Method = "GET"
 		})
         print("[Future] downloading "..path.." asset.")
 		writefile(path, req.Body)
         repeat task.wait() until betterisfile(path)
         print("[Future] downloaded "..path.." asset successfully!")
-	end]]
+	end
 	return GuiLibrary.getRobloxAsset(path) 
 end
-
---[[
-if betterisfile("Future/logs/latestmove.log") then 
-    local data = readfile("Future/logs/latestmove.log")
-    delfile("Future/logs/latestmove.log")
-    local date = data:split("\n")[1]
-    writefile(("Future/logs/"..date:gsub(" ", "_"):gsub("[^%w%s_:-]+", ""):gsub(":", "-")..".log"), data)
-end
-if betterisfile("Future/latest.log") then 
-    local data = readfile("Future/latest.log")
-    delfile("Future/latest.log")
-    writefile(("Future/logs/latestmove.log"), data)
-end
-local function log(sys, mes) 
-    local timePrefix = ("[%s] | "):format(os.date("%c").." "..os.date("%Z"))
-    local prefix = timePrefix.." ["..tostring(sys).."] "
-    local toPush = prefix..tostring(mes).."\n"
-
-    if not betterisfile("Future/latest.log") then 
-        writefile("Future/latest.log", os.date("%c").."\n"..toPush)
-    else
-        appendfile("Future/latest.log", toPush)
-    end
-end
-log("Startup", "---- BEGIN LOG ----")
-log("Startup", "Starting GUILibrary")
-]]
-local function log() end
 
 local function colortotable(color)
     if color:ToHSV() then
@@ -1239,7 +1211,7 @@ GuiLibrary["LoadOnlyGuiConfig"] = function()
     else
         for i,v in next, GuiLibrary.Objects do 
             if i == "ClickGuiOptionsButton" then
-                v.API.SetKeybind("RightShift")
+                v.API.SetKeybind("M")
             elseif i == "ColorsOptionsButtonHueSlider" and v.OptionsButton == "ColorsOptionsButton" and v.Window == "OtherWindow" then
                 v.API.Set(360)
             elseif i == "ColorsOptionsButtonSaturationSlider" and v.OptionsButton == "ColorsOptionsButton" and v.Window == "OtherWindow" then
